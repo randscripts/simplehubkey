@@ -1,1 +1,122 @@
-a8473716hUIwljIoPlKeghYWtRAS4eGf67809
+local DiscordLib = loadstring(game:HttpGet "https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/discord")()
+local win = DiscordLib:Window("Simple Hub - Flag Wars")
+local serv = win:Server("Simple Hub (BETA)", "")
+local btns = serv:Channel("Simple Hub")
+btns:Button(
+    "Weapon Mods",
+    function()
+        DiscordLib:Notification("simple hub", "Modifications to all weapons (melee and guns) have been enabled, reset your character for them to work.", "stfu now")
+        local mt = getrawmetatable(game)
+setreadonly(mt, false)
+local index = mt.__index
+
+local Mods = {
+    ["RecoilMax"] = 0,
+    ["RecoilMin"] = 0,
+    ["MuzzleFlashSize0"] = 0,
+    ["MuzzleFlashSize1"] = 0,
+    ["FlashBrightness"] = 0,
+    ["AmmoCapacity"] = 9e9,
+    ["ShotCooldown"] = 0,
+    ["CurrentAmmo"] = 9e9,
+    ["BulletSpeed"] = 9e9,
+    ["FireMode"] = "Automatic",
+    ["GravityFactor"] = 0,
+    ["MaxSpread"] = 0,
+    ["MinSpread"] = 0,
+    ["HitDamage"] = 9e9,
+    ["NumProjectiles"] = 1,
+    ["Cooldown"] = 0,
+    ["Value"] = 0,
+    ["DirtDamage"] = 9e9,
+    ["SwingCooldown"] = 0,
+    ["HitRate"] = 0,
+}
+
+mt.__index = function(a,b)
+    if Mods[tostring(a)] then
+        if tostring(b) == "Value" then
+            return Mods[tostring(a)]
+        end
+    end
+    return index(a,b)
+end
+    end
+)
+btns:Button(
+    "Hitbox Expander",
+    function()
+_G.HeadSize = 80
+_G.Disabled = true
+ 
+game:GetService('RunService').RenderStepped:connect(function()
+if _G.Disabled then
+for i,v in next, game:GetService('Players'):GetPlayers() do
+if v.Name ~= game:GetService('Players').LocalPlayer.Name then
+pcall(function()
+v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+v.Character.HumanoidRootPart.Transparency = 1
+v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
+v.Character.HumanoidRootPart.Material = "Neon"
+v.Character.HumanoidRootPart.CanCollide = false
+end)
+end
+end
+end
+end)
+   end
+)
+btns:Button("Chams ESP", function()
+getgenv().enabled = true 
+getgenv().filluseteamcolor = true 
+getgenv().outlineuseteamcolor = false 
+getgenv().fillcolor = Color3.new(0, 0, 0) 
+getgenv().outlinecolor = Color3.new(1, 1, 1) 
+getgenv().filltrans = 0.5 
+getgenv().outlinetrans = 0 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/zntly/highlight-esp/main/esp.lua"))()
+   end
+)
+btns:Button(
+    "Box + Health + Nametags ESP",
+    function()
+   loadstring(game:HttpGet("https://raw.githubusercontent.com/Spoorloos/scripts/main/universal_esp.lua"))();
+    end
+)
+btns:Button(
+      "Kill All (Buggy)",
+      function()
+      DiscordLib:Notification("simple hub", "Equip the Sniper weapon then get closer to the enemy to kill all", "stfu now")
+for i, v in pairs(game.Players:GetPlayers()) do
+        if v ~= game.Players.LocalPlayer then
+            local args = {
+            [1] = game:GetService("Players").LocalPlayer.Character.Sniper,
+            [2] = {
+                ["p"] = Vector3.new(716.1422729492188, 4.201920032501221, -52.15347671508789),
+                ["pid"] = 1,
+                ["part"] = v.Character.Head,
+                ["d"] = 8000,
+                ["maxDist"] = 8000,
+                ["h"] = v.Character.Humanoid,
+                ["m"] = Enum.Material.SmoothPlastic,
+                ["sid"] = 2,
+                ["t"] = 0.468864430009719,
+                ["n"] = Vector3.new(0.8855897784233093, 0.29755425453186035, 0.3566398322582245)
+            }}
+            game:GetService("ReplicatedStorage").WeaponsSystem.Network.WeaponHit:FireServer(unpack(args))
+        end
+    end
+        task.wait()
+    end
+)
+btns:Button(
+    "Infinite Jump",
+    function()
+        local InfiniteJumpEnabled = true
+game:GetService("UserInputService").JumpRequest:connect(function()
+	if InfiniteJumpEnabled then
+		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+	end
+end)
+    end
+)
